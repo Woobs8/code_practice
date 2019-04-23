@@ -1,5 +1,5 @@
 # IDE specifics
-.vs_code
+.vscode
 
 # MacOS specifics
 .DS_Store
