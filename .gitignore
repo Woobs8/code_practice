@@ -1,3 +1,6 @@
+# IDE specifics
+.vs_code
+
 # MacOS specifics
 .DS_Store
 
