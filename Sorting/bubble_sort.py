@@ -58,7 +58,6 @@ class BubbleSort(BaseSort):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Bubble sorting algorithm')
-
     parser.add_argument('-data', help='parameters for generating random data [len, seed]', nargs=2, type=int)
     parser.add_argument('-t', help='measure the execution time', nargs=2, required=False, type=int)
     args = parser.parse_args()
