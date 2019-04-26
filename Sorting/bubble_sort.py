@@ -1,5 +1,4 @@
 import argparse
-import os
 import timeit
 from functools import partial
 import random
