@@ -2,6 +2,7 @@ from __future__ import annotations
 import argparse
 import random
 
+
 class TreeNode():
     """
     A class encapsulating a node in binary tree
@@ -27,12 +28,14 @@ class TreeNode():
         self.left = None    # left child
         self.right = None   # right child
 
+
     def __repr__(self):
         return '{}'.format(self.data)
 
+
     def insert(self, data: int) -> None:
         """
-        Inserts a node with specified value in the subtree that has node as root
+        Inserts a node with specified value in the subtree that has this node as root
 
         Parameters:
             data (int): data value of node to be inserted
@@ -122,8 +125,10 @@ class BinarySearchTree():
         self.root = self.__array_to_bst(sorted(data))
         self.n = len(data)
 
+
     def __repr__(self):
         return "BinarySearchTree"
+
 
     def __array_to_bst(self, data: list) -> TreeNode:
         """
@@ -154,6 +159,7 @@ class BinarySearchTree():
             root.right = self.__array_to_bst(data[mid+1:])
             return root
 
+
     def insert(self, val: int) -> BinarySearchTree:
         """
         Inserts value into BST
@@ -168,6 +174,7 @@ class BinarySearchTree():
         self.n += 1
         return self
 
+
     def get_height(self) -> int:
         """
         Determines height of current BST
@@ -179,6 +186,7 @@ class BinarySearchTree():
             int: height of BST
         """ 
         return self.__get_height(self.root)
+
 
     def __get_height(self, root) -> int:
         """
@@ -197,6 +205,7 @@ class BinarySearchTree():
         else:
             return 1 + max(self.__get_height(root.left), self.__get_height(root.right))
 
+
     def is_balanced(self) -> bool:
         """
         Checks whether the current BST is balanced
@@ -208,7 +217,8 @@ class BinarySearchTree():
             bool: whether the BST is balanced
         """ 
         return self.__is_balanced(self.root)
-    
+
+
     def __is_balanced(self, root: TreeNode) -> bool:
         """
         Checks whether the BST is balanced by recursively traversing the tree
@@ -236,9 +246,10 @@ class BinarySearchTree():
             # a balanced subtree must have balanced subtrees and a maximum height difference of 1 between the left and right subtrees
             return left_balance and right_balance and height_diff <= 1
 
+
     def balance(self) -> BinarySearchTree:
         """
-        Balances the BST if it not current balanced
+        Balances the BST if it is not current balanced
 
         Parameters:
             -
@@ -255,6 +266,7 @@ class BinarySearchTree():
             # rebuild BST from sorted array
             self.root = self.__array_to_bst(sorted_nodes)
         return self
+
 
     def __get_sorted_tree_nodes(self, root: TreeNode, sorted_nodes: list) -> None:
         """
@@ -273,6 +285,7 @@ class BinarySearchTree():
             sorted_nodes.append(root.data)
             self.__get_sorted_tree_nodes(root.right, sorted_nodes)
 
+
     def invert(self) -> BinarySearchTree:
         """
         Inverts the BST
@@ -285,7 +298,8 @@ class BinarySearchTree():
         """ 
         self.__invert_tree(self.root)
         return self
-    
+
+
     def __invert_tree(self, root: TreeNode) -> TreeNode:
         """
         Inverts the tree by recusively inverting the subtrees
@@ -310,6 +324,7 @@ class BinarySearchTree():
             root.right = left
             return root
 
+
     def search(self, needle: int, traversal: str ='pre') -> str:
         """
         Searches the BST for a needle using the specified traversal method
@@ -333,6 +348,7 @@ class BinarySearchTree():
         # unknown traversal method
         else:
             return 'Unsupported traversal method: {}'.format(traversal)
+
 
     def __pre_prder_traversal(self, root: TreeNode, needle: int) -> str:
         """
@@ -363,6 +379,7 @@ class BinarySearchTree():
             else:
                 return self.__pre_prder_traversal(root.right, needle)
 
+
     def __post_prder_traversal(self, root: TreeNode, needle: int) -> str:
         """
         Traverses a BST using post-order traversal and search for a needle
@@ -391,6 +408,7 @@ class BinarySearchTree():
                 return self.__post_prder_traversal(root.right, needle)
         else:
             return '{} was found'.format(needle)
+
 
     def __in_prder_traversal(self, root: TreeNode, needle: int) -> str:
         """
@@ -421,10 +439,12 @@ class BinarySearchTree():
             else:
                 return self.__in_prder_traversal(root.right, needle)
 
+
     def print_tree(self) -> None:
         print_list = []
         self.__print_tree(self.root, print_list)
         print(print_list)
+
 
     def __print_tree(self, root, print_list):
         if root.left:
@@ -432,6 +452,7 @@ class BinarySearchTree():
         print_list.append(root.data)
         if root.right:
             self.__print_tree(root.right, print_list)    
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Implementation of a binary search tree and relation operations')

@@ -2,42 +2,47 @@ import argparse
 import random
 
 
-class LinkedListElement():
+class DELinkedListElement():
     """
-    A class encapsulating an element in a linked list
+    A class encapsulating an element in a double-ended linked list
 
     Attributes
     ----------
     data (Object)
         Value to assign to element
 
-    next (LinkedListElement)
+    prev (DELinkedListElement)
+        Reference to the previous element in the linked list
+
+    next (DELinkedListElement)
         Reference to the next element in the linked list
 
     Methods
     -------
     -
     """
-    def __init__(self, data, next=None):
+    def __init__(self, data, prev=None, next=None):
         self.data = data
+        self.prev = prev
         self.next = next
     
 
     def __repr__(self):
+        prev_data = self.prev.data if self.prev else None
         next_data = self.next.data if self.next else None
-        return '{} -> {}'.format(self.data, next_data)
+        return '{} <- {} -> {}'.format(prev_data, self.data, next_data)
 
 
-class LinkedList():
+class DELinkedList():
     """
-    A class encapsulating a linked list data structure
+    A class encapsulating a double-ended linked list data structure
 
     Attributes
     ----------
-    front (LinkedListElement)
+    front (DELinkedListElement)
         Element at the front of the list
 
-    back (LinkedListElement)
+    back (DELinkedListElement)
         Element at the back of the queue
 
     Methods
@@ -102,10 +107,11 @@ class LinkedList():
         Returns:
             None
         """
-        new_node = LinkedListElement(data)
+        new_node = DELinkedListElement(data)
         if len(self) == 0:
             self.front = new_node
         else:
+            new_node.prev = self.back
             self.back.next = new_node
         self.back = new_node
 
@@ -120,8 +126,9 @@ class LinkedList():
         Returns:
             None
         """
-        new_node = LinkedListElement(data)
+        new_node = DELinkedListElement(data)
         new_node.next = self.front
+        self.front.prev = new_node
         self.front = new_node
 
         if len(self) == 0:
@@ -178,8 +185,9 @@ class LinkedList():
         if not node:
             raise IndexError
 
-        new_node = LinkedListElement(data)
+        new_node = DELinkedListElement(data)
         new_node.next = node.next
+        new_node.prev = node
         node.next = new_node
 
         if self.back == node:
@@ -199,30 +207,29 @@ class LinkedList():
             None
         """
         node = self.front
-        prev = None
         while node:
             if node.data == data:
                 if node == self.front:
                     self.front = node.next
                 else:
-                    prev.next = node.next
+                    node.prev.next = node.next
+
                 node = node.next
                 if not delete_all:
                     break
             
-            if node:   
-                prev = node
+            if node and node.next:   
                 node = node.next
     
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Implementation of a standard queue')
+    parser = argparse.ArgumentParser(description='Implementation of a double-ended queue')
     parser.add_argument('len', help='length of list', type=int)
     args = parser.parse_args()    
     n = args.len
 
     # initialize linked list
-    ll = LinkedList(range(n))
+    ll = DELinkedList(range(n))
 
     # print initial linked list
     print('Initial list')

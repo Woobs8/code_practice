@@ -1,22 +1,54 @@
 import argparse
 import random
 
+
 class BinaryHeap():
+    """
+    A class encapsulating a binary heap data structure
+
+    Attributes
+    ----------
+    data (int)
+        The value of the node
+
+    left (TreeNode)
+        The left child node with a data value smaller than this node if it exists
+
+    right (TreeNode)
+        The right child node with a data value greater than this node if it exists
+
+    Methods
+    -------
+    insert
+        Inserts a node with specified value in the subtree that has node as root
+    """
     def __init__(self, data: list, heap_type: str='max'):
         self.heap = data.copy()
         self.heap_type = heap_type
         self.__heapify()
 
+
     def __repr__(self):
         return str(self.heap)
 
+
     def __heapify(self):
+        """
+        Builds a min or max heap data structure from the heap attribute
+
+        Parameters:
+            -
+
+        Returns:
+            None
+        """
         n = len(self.heap)
         for i in range(n-1,-1,-1):
             if self.heap_type == 'max':
                 self.__max_heapify(self.heap, n, i)
             elif self.heap_type == 'min':
                 self.__min_heapify(self.heap, n, i)
+
 
     def __max_heapify(self, arr: list, n: int, root_idx: int) -> list:
         """
@@ -49,6 +81,7 @@ class BinaryHeap():
             # since root is swapped, its new subtree must be heapified
             self.__max_heapify(arr, n, max_idx)
 
+
     def __min_heapify(self, arr: list, n: int, root_idx: int) -> list:
         """
         Builds a max heap from the input array using root_idx as the root element and tree depth determined by size n
@@ -80,19 +113,41 @@ class BinaryHeap():
             # since root is swapped, its new subtree must be heapified
             self.__max_heapify(arr, n, min_idx)
 
+
     def insert(self, data: int) -> None:
+        """
+        Inserts an element into the heap
+
+        Parameters:
+            data (int): data to insert into heap
+
+        Returns:
+            None
+        """
         self.heap.append(data)
         self.__heapify()
 
-    def remove(self, key):
+
+    def remove(self, key: int) -> None:
+        """
+        Removes an element from the heap
+
+        Parameters:
+            key (int): index at which to remove element
+
+        Returns:
+            None
+        """
         if key <= (len(self.heap)-1):
             self.heap = self.heap[:key] + self.heap[key+1:]
             self.__heapify()
         else:
             raise IndexError
 
+
     def __len__(self):
         return len(self.heap)
+
 
     def __parent_index(self, i: int) -> int:
         """
@@ -106,6 +161,7 @@ class BinaryHeap():
         """
         return (i-1)//2
     
+
     def __left_child_index(self, i: int) -> int:
         """
         Find left child index of index i for array representation of max heap
@@ -118,6 +174,7 @@ class BinaryHeap():
         """
         return (2*i)+1
     
+
     def __right_child_index(self, i: int) -> int:
         """
         Find right child index of index i for array representation of max heap
@@ -129,6 +186,7 @@ class BinaryHeap():
             int: right child index of i
         """
         return (2*i)+2
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Implementation of binary heap data structure')
