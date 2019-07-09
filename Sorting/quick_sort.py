@@ -6,6 +6,7 @@ import random
 from itertools import accumulate
 from sorting import BaseSort
 
+
 class QuickSort(BaseSort):
     """
     A class used to encapsulate the QuickSort algorithm
@@ -21,9 +22,9 @@ class QuickSort(BaseSort):
 
 
     """
-
     def __repr__(self):
         return "QuickSort"
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -45,6 +46,7 @@ class QuickSort(BaseSort):
         self.__quick_sort(work_arr,0,len(work_arr)-1)
 
         return work_arr
+
 
     def __quick_sort(self, arr: list, low: int, high: int):
         """
@@ -98,6 +100,7 @@ class QuickSort(BaseSort):
 
         # return the pivot index
         return i+1
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='QuickSort algorithm')

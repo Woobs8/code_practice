@@ -6,6 +6,7 @@ import random
 from itertools import accumulate
 from sorting import BaseSort
 
+
 class RadixSort(BaseSort):
     """
     A class used to encapsulate the Radix Sort algorithm
@@ -23,9 +24,9 @@ class RadixSort(BaseSort):
         Counting sort implementation that sorts the array based on the element digit specified by exp
 
     """
-
     def __repr__(self):
         return "Radix Sort"
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -56,6 +57,7 @@ class RadixSort(BaseSort):
 
         return work_arr
     
+
     def __digit_counting_sort(self, arr: list, exp: int) -> list:
         """
         Counting sort implementation that sorts the array based on the element digit specified by exp
@@ -88,8 +90,8 @@ class RadixSort(BaseSort):
             digit_index = int((x / exp) % 10)
             work_arr[count_arr[digit_index]-1] = x
             count_arr[digit_index] -= 1
-
         return work_arr
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Radix sorting algorithm')

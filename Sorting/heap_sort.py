@@ -5,6 +5,7 @@ from functools import partial
 import random
 from sorting import BaseSort
 
+
 class HeapSort(BaseSort):
     """
     A class used to encapsulate the Heap Sort algorithm
@@ -31,9 +32,9 @@ class HeapSort(BaseSort):
         Find right child index of index i for array representation of max heap
 
     """
-
     def __repr__(self):
         return "Heap Sort"
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -56,13 +57,14 @@ class HeapSort(BaseSort):
         for i in range(n-1,-1,-1):
             self.__max_heapify(work_arr, n, i)
 
-        # iteratively extract the root element (lartgest) and swap the last element in its place, the re-heapify the remaining array
+        # iteratively extract the root element (largest) and swap the last element in its place, the re-heapify the remaining array
         for i in range(n-1, 0, -1):
             work_arr[i], work_arr[0] = work_arr[0], work_arr[i]     # swap first and last elements
             self.__max_heapify(work_arr, i, 0)                      # re-heapify the array, but without including the extracted last element
 
         return work_arr
     
+
     def __max_heapify(self, arr: list, n: int, root_idx: int) -> list:
         """
         Builds a max heap from the input array using root_idx as the root element and tree depth determined by size n
@@ -107,6 +109,7 @@ class HeapSort(BaseSort):
         """
         return (i-1)//2
     
+
     def __left_child_index(self, i: int) -> int:
         """
         Find left child index of index i for array representation of max heap
@@ -119,6 +122,7 @@ class HeapSort(BaseSort):
         """
         return (2*i)+1
     
+
     def __right_child_index(self, i: int) -> int:
         """
         Find right child index of index i for array representation of max heap
@@ -131,7 +135,6 @@ class HeapSort(BaseSort):
         """
         return (2*i)+2
         
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Heap sorting algorithm')

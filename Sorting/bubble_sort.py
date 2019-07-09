@@ -4,6 +4,7 @@ from functools import partial
 import random
 from sorting import BaseSort
 
+
 class BubbleSort(BaseSort):
     """
     A class used to encapsulate the Bubble Sort algorithm
@@ -20,6 +21,7 @@ class BubbleSort(BaseSort):
     """
     def __repr__(self):
         return 'Bubble Sort'
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -54,6 +56,7 @@ class BubbleSort(BaseSort):
                 break
         
         return work_arr
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Bubble sorting algorithm')

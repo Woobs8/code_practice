@@ -7,6 +7,7 @@ from collections import defaultdict
 from itertools import accumulate
 from sorting import BaseSort
 
+
 class CountingSort(BaseSort):
     """
     A class used to encapsulate the Counting Sort algorithm
@@ -21,9 +22,9 @@ class CountingSort(BaseSort):
         Sorts an array using the counting sort algorithm
 
     """
-
     def __repr__(self):
         return "Counting Sort"
+
 
     def sort(self, arr: list) -> list:
         """
@@ -55,6 +56,7 @@ class CountingSort(BaseSort):
             work_arr[count_arr[x+minElmt]-1] = x
             count_arr[x+minElmt] -= 1
         return work_arr
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Counting sorting algorithm')

@@ -5,6 +5,7 @@ from functools import partial
 import random
 from sorting import BaseSort
 
+
 class MergeSort(BaseSort):
     """
     A class used to encapsulate the Merge Sort algorithm
@@ -25,9 +26,9 @@ class MergeSort(BaseSort):
     __merge(a,b)
         Merges two lists while sorting the elements in the lists
     """
-
     def __repr__(self):
         return "Merge Sort"
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -47,6 +48,7 @@ class MergeSort(BaseSort):
         
         return self.__recursive_sort(work_arr)
     
+
     def __recursive_sort(self, arr: list) -> list:   
         """
         Recursively splits the array into smaller segments until each segment is a single element, which are then
@@ -73,6 +75,7 @@ class MergeSort(BaseSort):
 
             # merge the two sorted segments
             return self.__merge(l,r)
+
 
     def __merge(self, a: list,b: list) -> list:
         """
@@ -108,6 +111,7 @@ class MergeSort(BaseSort):
             arr[k:] = b[j:]
         
         return arr
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Merge sorting algorithm')

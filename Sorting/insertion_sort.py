@@ -7,6 +7,7 @@ from collections import defaultdict
 from itertools import accumulate
 from sorting import BaseSort
 
+
 class InsertionSort(BaseSort):
     """
     A class used to encapsulate the Insertion Sort algorithm
@@ -21,9 +22,9 @@ class InsertionSort(BaseSort):
         Sorts an array using the insertion sort algorithm
 
     """
-
     def __repr__(self):
         return "Insertion Sort"
+
 
     def sort(self, arr: list, in_place=False) -> list:
         """
@@ -31,6 +32,7 @@ class InsertionSort(BaseSort):
 
         Parameters:
             arr (list): list to be sorted
+            in_place (bool): whether the list should be sorted in place
 
         Returns:
             list: the sorted list
@@ -51,6 +53,7 @@ class InsertionSort(BaseSort):
                 else:
                     break
         return work_arr
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Insertion sorting algorithm')

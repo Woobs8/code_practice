@@ -5,11 +5,34 @@ import argparse
 import timeit
 import numpy as np
 
+
 class BucketSort():
+    """
+    A class used to encapsulate the Bucket Sort algorithm
+
+    Attributes
+    ----------
+    -
+
+    Methods
+    -------
+    sort(arr)
+        Sorts an array using the bucket sort algorithm
+    """
     def __repr__(self):
         return 'Bucket sort'
 
+
     def sort(self, arr: list) -> list:
+        """
+        Sorts an array using the bucket sort algorithm
+
+        Parameters:
+            arr (list): list to be sorted
+
+        Returns:
+            list: the sorted list
+        """ 
         n = len(arr)
 
         buckets = []
@@ -24,6 +47,7 @@ class BucketSort():
         for i in range(n):
             buckets[i] = ins_sort.sort(buckets[i])
         return list(chain.from_iterable(buckets))
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Bucket sorting algorithm')
