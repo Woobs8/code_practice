@@ -1,69 +1,7 @@
 from __future__ import annotations
 import argparse
 import random
-
-
-class TreeNode():
-    """
-    A class encapsulating a node in binary tree
-
-    Attributes
-    ----------
-    data (int)
-        The value of the node
-
-    left (TreeNode)
-        The left child node with a data value smaller than this node if it exists
-
-    right (TreeNode)
-        The right child node with a data value greater than this node if it exists
-
-    Methods
-    -------
-    insert
-        Inserts a node with specified value in the subtree that has node as root
-    """
-    def __init__(self, data: int):
-        self.data = data    # value of node
-        self.left = None    # left child
-        self.right = None   # right child
-
-
-    def __repr__(self):
-        return '{}'.format(self.data)
-
-
-    def insert(self, data: int) -> None:
-        """
-        Inserts a node with specified value in the subtree that has this node as root
-
-        Parameters:
-            data (int): data value of node to be inserted
-
-        Returns:
-            -
-        """ 
-        # if node has value -> insert value as a child
-        if self.data:
-            # value is smaller than or equal to node value
-            if data <= self.data:
-                # no left child exists -> insert value as left child
-                if self.left is None:
-                    self.left = TreeNode(data)
-                # left child exists -> recursively insert into left subtree
-                else:
-                    self.left.insert(data)
-            # value is greater than node value
-            else:
-                # no right child exists -> insert value as right child
-                if self.right is None:
-                    self.right = TreeNode(data)
-                # right child exists -> recursively insert into right subtree
-                else:
-                    self.right.insert(data)     
-        # node has no value -> assign value to node
-        else:
-            self.data = data        
+from tree_node import BinaryTreeNode
 
 
 class BinarySearchTree():
@@ -72,7 +10,7 @@ class BinarySearchTree():
 
     Attributes
     ----------
-    root (TreeNode)
+    root (BinaryTreeNode)
         The root node of the binary tree
 
     Methods
@@ -82,6 +20,15 @@ class BinarySearchTree():
 
     insert
         Inserts value into BST
+
+    __insert
+        Inserts value into BST by recursively traversing the tree
+
+    delete
+        Delete value from BST
+
+    __delete
+        Delete value from BST by recursively traversing the tree
 
     get_height
         Determines height of current BST  
@@ -118,19 +65,28 @@ class BinarySearchTree():
 
     __in_prder_traversal
         Traverses a BST using in-order traversal and search for a needle
-    
+
+    __get_max_value
+        Traverses a BST and returns the maximum value in the subtree
+
+    __get_min_value
+        Traverses a BST and returns the minimum value in the subtree   
     """
-    def __init__(self, data: list):
+    def __init__(self, data: list = None):
         # initialize height-balanced tree from data
-        self.root = self.__array_to_bst(sorted(data))
-        self.n = len(data)
+        if data:
+            self.root = self.__array_to_bst(sorted(data))
+            self.n = len(data)
+        else:
+            self.root = None
+            self.n = 0
 
 
     def __repr__(self):
         return "BinarySearchTree"
 
 
-    def __array_to_bst(self, data: list) -> TreeNode:
+    def __array_to_bst(self, data: list) -> BinaryTreeNode:
         """
         Converts a sorted array into a height-balanced BST
 
@@ -138,8 +94,9 @@ class BinarySearchTree():
             data (list): sorted data array
 
         Returns:
-            TreeNode: root node of built BST
-        """ 
+            BinaryTreeNode: root node of built BST
+        """
+        # length of data in current recursion
         n = len(data)
 
         # no input data -> no tree
@@ -147,12 +104,12 @@ class BinarySearchTree():
             return None
         # single input data element -> node with value
         elif n == 1:
-            return TreeNode(data[0])
+            return BinaryTreeNode(data[0])
         # multiple data elements are recursively split by the median
         else:
             # root node is the median
             mid = n // 2
-            root = TreeNode(data[mid])
+            root = BinaryTreeNode(data[mid])
 
             # left and right subtrees are built from left and right partition
             root.left = self.__array_to_bst(data[:mid])
@@ -170,9 +127,96 @@ class BinarySearchTree():
         Returns:
             BinarySearchTree: self for chained method invocation
         """
-        self.root.insert(val)
+        self.root = self.__insert(self.root, val)
         self.n += 1
         return self
+
+    
+    def __insert(self, root: BinaryTreeNode, val: int) -> BinaryTreeNode:
+        """
+        Inserts value into BST by recursively traversing the tree
+
+        Parameters:
+            root (BinaryTreeNode): root node of subtree
+            val (int): value to insert
+
+        Returns:
+            BinaryTreeNode: root of node of subtree
+        """
+        # if no root exists, the new node is the root
+        if root is None:
+            return BinaryTreeNode(val)
+
+        # if value to insert is smaller than root, traverse down left subtree
+        if val < root.data:
+            root.left = self.__insert(root.left, val)
+        # otherwise, traverse down right subtree
+        else:
+            root.right = self.__insert(root.right, val)
+
+        return root
+
+    
+    def delete(self, key: int) -> BinarySearchTree:
+        """
+        Delete value from BST
+
+        Parameters:
+            key (int): value to delete
+
+        Returns:
+            BinarySearchTree: self for chained method invocation
+        """
+        self.root = self.__delete(self.root, key)
+        self.n -= 1
+        return self
+
+    
+    def __delete(self, root: BinaryTreeNode, key: int) -> BinaryTreeNode:
+        """
+        Delete value from BST by recursively traversing the tree
+
+        Parameters:
+            root (BinaryTreeNode): root node of subtree
+            val (int): key to delete
+
+        Returns:
+            BinaryTreeNode: root of node of subtree
+        """
+        # if root does not exist, there is no more to traverse
+        if root is None: 
+            return root  
+    
+        # if key is smaller than root, the key must be in the left subtree
+        if key < root.data: 
+            root.left = self.__delete(root.left, key) 
+        # if key is greater than root, the key must be in the right subtree
+        elif key > root.data: 
+            root.right = self.__delete(root.right, key)
+    
+        # else the key is equal to the root, and the root must be deleted
+        else:   
+            # if root has no children it is deleted; if root has only one child it becomes the new root
+            if root.left is None: 
+                child_node = root.right  
+                root = None 
+                return child_node 
+            elif root.right is None: 
+                child_node = root.left  
+                root = None
+                return child_node 
+
+            # if node has two children, the inorder succesor is chosen as new root
+            # inorder-succesor is the smallest in the right subtree
+            temp = self.__get_min_value(root.right)
+    
+            # the value of the new root is copied to the current root 
+            root.key = temp.key 
+    
+            # the inorder succesor is then deleted 
+            root.right = self.__delete(root.right, temp.key) 
+    
+        return root
 
 
     def get_height(self) -> int:
@@ -193,7 +237,7 @@ class BinarySearchTree():
         Determines height of BST by recursively traversing the tree
 
         Parameters:
-            root (TreeNode): root node of BST
+            root (BinaryTreeNode): root node of BST
 
         Returns:
             int: height of BST subtree with root as root node
@@ -219,12 +263,12 @@ class BinarySearchTree():
         return self.__is_balanced(self.root)
 
 
-    def __is_balanced(self, root: TreeNode) -> bool:
+    def __is_balanced(self, root: BinaryTreeNode) -> bool:
         """
         Checks whether the BST is balanced by recursively traversing the tree
 
         Parameters:
-            root (TreeNode): root node of BST
+            root (BinaryTreeNode): root node of BST
 
         Returns:
             bool: Whether the BST subtree with root as root node is balanced
@@ -268,12 +312,12 @@ class BinarySearchTree():
         return self
 
 
-    def __get_sorted_tree_nodes(self, root: TreeNode, sorted_nodes: list) -> None:
+    def __get_sorted_tree_nodes(self, root: BinaryTreeNode, sorted_nodes: list) -> None:
         """
         Recursively traverses the BST in-order and extracts a sorted array of the values of all nodes in the tree
 
         Parameters:
-            root (TreeNode): root node of BST
+            root (BinaryTreeNode): root node of BST
             sorted_nodes (list): sorted list of node values
 
         Returns:
@@ -300,15 +344,15 @@ class BinarySearchTree():
         return self
 
 
-    def __invert_tree(self, root: TreeNode) -> TreeNode:
+    def __invert_tree(self, root: BinaryTreeNode) -> BinaryTreeNode:
         """
         Inverts the tree by recusively inverting the subtrees
 
         Parameters:
-            root (TreeNode): root node of BST
+            root (BinaryTreeNode): root node of BST
 
         Returns:
-            TreeNode: the root node of the inverted BST
+            BinaryTreeNode: the root node of the inverted BST
         """
         if root is None:
             return None
@@ -350,12 +394,12 @@ class BinarySearchTree():
             return 'Unsupported traversal method: {}'.format(traversal)
 
 
-    def __pre_prder_traversal(self, root: TreeNode, needle: int) -> str:
+    def __pre_prder_traversal(self, root: BinaryTreeNode, needle: int) -> str:
         """
         Traverses a BST using pre-order traversal and search for a needle
 
         Parameters:
-            root (TreeNode): root node of the BST to search
+            root (BinaryTreeNode): root node of the BST to search
             needle (int): value to search for
 
         Returns:
@@ -380,12 +424,12 @@ class BinarySearchTree():
                 return self.__pre_prder_traversal(root.right, needle)
 
 
-    def __post_prder_traversal(self, root: TreeNode, needle: int) -> str:
+    def __post_prder_traversal(self, root: BinaryTreeNode, needle: int) -> str:
         """
         Traverses a BST using post-order traversal and search for a needle
 
         Parameters:
-            root (TreeNode): root node of the BST to search
+            root (BinaryTreeNode): root node of the BST to search
             needle (int): value to search for
 
         Returns:
@@ -410,12 +454,12 @@ class BinarySearchTree():
             return '{} was found'.format(needle)
 
 
-    def __in_prder_traversal(self, root: TreeNode, needle: int) -> str:
+    def __in_prder_traversal(self, root: BinaryTreeNode, needle: int) -> str:
         """
         Traverses a BST using in-order traversal and search for a needle
 
         Parameters:
-            root (TreeNode): root node of the BST to search
+            root (BinaryTreeNode): root node of the BST to search
             needle (int): value to search for
 
         Returns:
@@ -438,6 +482,42 @@ class BinarySearchTree():
             # right child exists -> search right subtree
             else:
                 return self.__in_prder_traversal(root.right, needle)
+    
+
+    def __get_max_value(self, root: BinaryTreeNode) -> BinaryTreeNode:
+        """
+        Traverses a BST and returns the maximum value in the subtree
+
+        Parameters:
+            root (BinaryTreeNode): root node of the subtree to search
+
+        Returns:
+            BinaryTreeNode: root node of subtree
+        """
+        current = root
+
+        while(current.right is not None):
+            current = current.right
+
+        return current
+
+
+    def __get_min_value(self, root: BinaryTreeNode) -> BinaryTreeNode:
+        """
+        Traverses a BST and returns the mninimum value in the subtree
+
+        Parameters:
+            root (BinaryTreeNode): root node of the subtree to search
+
+        Returns:
+            BinaryTreeNode: root node of subtree
+        """
+        current = root
+
+        while(current.left is not None):
+            current = current.left
+
+        return current
 
 
     def print_tree(self) -> None:
@@ -455,8 +535,8 @@ class BinarySearchTree():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Implementation of a binary search tree and relation operations')
-    parser.add_argument('-data', help='parameters for generating random data [len, seed]', nargs=2, type=int)
+    parser = argparse.ArgumentParser(description='Implementation of a binary search tree and related operations')
+    parser.add_argument('-data', help='parameters for generating random data [len, seed]', nargs=2, type=int, required=True)
     args = parser.parse_args()    
     n = args.data[0]
     seed = args.data[1]
@@ -494,6 +574,11 @@ if __name__ == '__main__':
     print(tree.search(55, 'in'))
 
     # print the tree
+    tree.print_tree()
+
+    # delete value that exist in the tree, and verify that is has been deleted
+    tree.delete(42)
+    print(tree.search(42, 'in'))
     tree.print_tree()
 
     # invert tree

@@ -1,5 +1,5 @@
 import argparse
-from linked_list import LinkedList
+from Data_Structures.Lists import LinkedList
 
 
 class HashMap():
